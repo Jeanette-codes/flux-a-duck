@@ -50,40 +50,9 @@ _Store.dispatchToken = dispatcher.register((payload) => {
         throw 'there is no ' + action.actionType + ' method in the store';
     }
 
-    // This often goes in each case that should trigger a UI change. This store
-    // needs to trigger a UI change after every view action, so we can make the
-    // code less repetitive by putting it here.  We need the default case,
-    // however, to make sure this only gets called after one of the cases above.
     _Store.emitChange();
 
     return true; // No errors.  Needed by promise in Dispatcher.
 });
 
 module.exports = _Store;
-
-//class Store extends EventEmitter {
-    //emitChange() {
-        //this.emit('change');
-    //}
-
-    //addChangeListener(callback) {
-        //this.on('change', callback);
-    //}
-
-    //removeChangeListener(callback) {
-        //this.removeListener('change', callback);
-    //}
-
-    //getAll() {
-        //let jsStore = _store.toJS();
-
-        //return jsStore;
-    //}
-//}
-
-//const _Store = new Store();
-
-//_Store.dispatchToken = AppDispatcher.register(payload => {
-    //let action = payload;
-
-//});
