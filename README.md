@@ -1,4 +1,4 @@
-#Simple Flux
+#Flux-A-Duck
 
 **Because your Actions file is enormous**
 
@@ -10,5 +10,5 @@ At least that's my hope
 
 ---
 
-    npm install simpleFlux
+    npm install flux-a-duck 
 
