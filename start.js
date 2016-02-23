@@ -1,5 +1,9 @@
 const exec = require('child_process').exec;
 
+// TODO: make a production build that strips comments and concatenates into one file
+// TODO: source maps for the dev build
+// TODO: ecmascript and babel watch for the dev build
+
 const child = new Promise(function(resolve, reject) {
     exec('./node_modules/babel-cli/bin/babel.js src -d lib',
         function (error, stdout, stderr) {
