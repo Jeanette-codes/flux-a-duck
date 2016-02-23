@@ -1,8 +1,14 @@
 import actions from './actions';
 import store from './store';
 
+/**
+ * This is where the API is declared
+ */
 class FAD {
 
+    /**
+     * Public methods and variables go here
+     */
     constructor() {
         this.action = this._action;
         this.getAllJS = this._getAllJS;
@@ -12,7 +18,6 @@ class FAD {
     _action(options) {
         return actions({
             url : options.url,
-            name : options.name,
             storeMethod : options.storeMethod
         }).then(() => {
             return Promise.resolve();
@@ -20,7 +25,6 @@ class FAD {
     }
 
     _addChangeListener(callback) {
-        console.log('callback: ', callback);
         return store.addChangeListener(callback);
     }
 

@@ -2,6 +2,9 @@ import dispatcher from './dispatcher.js';
 import request from './request.js';
 import store from './store.js';
 
+/**
+ * So Errors aren't hidden by the dispatcher.
+ */
 let getErrorStack = (error) => {
     if (error && error.stack) {
         console.error(error.stack);
@@ -10,34 +13,51 @@ let getErrorStack = (error) => {
     }
 }
 
+/**
+ * used to identify the store methods
+ */
+let methodCount = 0;
+
 export default (settings) => {
 
     /**
-     * Checks for duplicate store methods so that they are not overwritten.
-     * Duplicates will not be used in the store, only the first of a given name. 
+     * caches the method count so the correct method is called later on.
      */
-    for(let method in store.methods) {
-        if(method === settings.name) {
-            throw 'Error, there is already a store method of the name: '+ settings.name +'. Duplicate store methods will not be accessible.';
-        }
-    }
+    let id = methodCount++;
 
     /**
-     * Creates method in the store that is called in the index file
+     * Creates a method in the store that is called in the store via
+     * dispatcher call below.
      */
-    store.methods[settings.name] = (data) => {
+    store.methods[id] = (data) => {
         settings.storeMethod(data, store);
     };
 
+    if(settings.url) {
 
-    return request.get(settings.url, {}).then((data) => {
+        /**
+         * Calls the REST service url provided for now.
+         * TODO: add other REST methods.
+         */
+        return request.get(settings.url, {}).then((data) => {
+            dispatcher.handleViewAction({
+                actionType : id,
+                data       : JSON.parse(data)
+            });
+            return Promise.resolve();
+        }).catch((errorData) => {
+            getErrorStack(errorData);
+            return Promise.reject(errorData);
+        });
+    } else {
+
+        /**
+         * Bypasses any service calls and goes right to the dispatcher then store. 
+         */
         dispatcher.handleViewAction({
-            actionType : settings.name,
-            data       : JSON.parse(data)
+            actionType : id,
+            data       : {} 
         });
         return Promise.resolve();
-    }).catch((errorData) => {
-        getErrorStack(errorData);
-        return Promise.reject(errorData);
-    });
+    }
 };
