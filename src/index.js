@@ -13,6 +13,7 @@ class FAD {
         this.action = this._action;
         this.getAllJS = this._getAllJS;
         this.addChangeListener = this._addChangeListener;
+        console.log('farts');
     }
 
     _action(options) {

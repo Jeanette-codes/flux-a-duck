@@ -1,7 +1,7 @@
 {
   "name": "flux-a-duck",
   "version": "1.0.0",
-  "description": "A module that allows you to break your flux actions and store commands into smaller pieces that can be placed in the components that use them.",
+  "description": "A module that allows you to break your flux actions and store methods into smaller pieces that can be placed in the components that use them.",
   "main": "lib/index.js",
   "scripts": {
     "test": "test",
@@ -25,6 +25,8 @@
   "devDependencies": {
     "babel-cli": "^6.5.1",
     "babel-preset-es2015": "^6.5.0",
+    "chokidar": "^1.4.3",
+    "colors": "^1.1.2",
     "events": "^1.1.0",
     "immutable": "^3.7.6",
     "object-assign": "^4.0.1"
