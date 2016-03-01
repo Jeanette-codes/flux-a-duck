@@ -13,7 +13,6 @@
   },
   "keywords": [
     "flux",
-    "react",
     "es6"
   ],
   "author": "Jeremy Hitchcock",
@@ -27,6 +26,7 @@
     "babel-preset-es2015": "^6.5.0",
     "chokidar": "^1.4.3",
     "colors": "^1.1.2",
+    "eslint": "^2.2.0",
     "events": "^1.1.0",
     "immutable": "^3.7.6",
     "object-assign": "^4.0.1"

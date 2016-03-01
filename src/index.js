@@ -13,12 +13,11 @@ class FAD {
         this.action = this._action;
         this.getAllJS = this._getAllJS;
         this.addChangeListener = this._addChangeListener;
-        console.log('farts');
     }
 
     _action(options) {
         return actions({
-            url : options.url,
+            url         : options.url,
             storeMethod : options.storeMethod
         }).then(() => {
             return Promise.resolve();

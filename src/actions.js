@@ -52,11 +52,11 @@ export default (settings) => {
     } else {
 
         /**
-         * Bypasses any service calls and goes right to the dispatcher then store. 
+         * Bypasses any service calls and goes right to the dispatcher then store.
          */
         dispatcher.handleViewAction({
             actionType : id,
-            data       : {} 
+            data       : {}
         });
         return Promise.resolve();
     }
