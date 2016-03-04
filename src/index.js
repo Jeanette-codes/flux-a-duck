@@ -16,10 +16,7 @@ class FAD {
     }
 
     _action(options) {
-        return actions({
-            url         : options.url,
-            storeMethod : options.storeMethod
-        }).then(() => {
+        return actions(options).then(() => {
             return Promise.resolve();
         });
     }

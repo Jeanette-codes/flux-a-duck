@@ -18,7 +18,7 @@ let getErrorStack = (error) => {
  */
 let methodCount = 0;
 
-export default (settings) => {
+export default (options) => {
 
     /**
      * caches the method count so the correct method is called later on.
@@ -29,17 +29,19 @@ export default (settings) => {
      * Creates a method in the store that is called in the store via
      * dispatcher call below.
      */
+
+    console.log('options: ', options);
     store.methods[id] = (data) => {
-        settings.storeMethod(data, store);
+        options.storeMethod(data, store);
     };
 
-    if(settings.url) {
+    if(options.url) {
 
         /**
          * Calls the REST service url provided for now.
          * TODO: add other REST methods.
          */
-        return request.get(settings.url, {}).then((data) => {
+        return request.get(options).then((data) => {
             dispatcher.handleViewAction({
                 actionType : id,
                 data       : JSON.parse(data)

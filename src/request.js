@@ -4,13 +4,28 @@ let makeParams = (obj) => {
     }).join('&');
 };
 
-let makeRequest = (url, params, method) => {
+let makeURL = (url, params) => {
+    if(params) {
+        return url + '?' + makeParams(params);
+    } else {
+        return url;
+    }
+};
+
+let makeRequestHeader = (request, headersArr) => {
+    return headersArr.map((header) => {
+        for(let key in header) {
+            return request.setRequestHeader(key, header[key]);
+        }
+    });
+};
+
+let makeRequest = (options) => {
     return new Promise((resolve, reject) => {
         let request = new XMLHttpRequest();
-        let pURL = url + '?' + makeParams(params);
 
-        request.open(method, pURL, true);
-
+        //synchronous request types are deprecated
+        request.open(options.method, makeURL(options.url, options.params), true);
 
         request.onload = () => {
             if (request.status >= 200 && request.status < 400) {
@@ -24,14 +39,18 @@ let makeRequest = (url, params, method) => {
             return reject('there was a connection error of some sort');
         };
 
-        request.setRequestHeader('Api-User-Agent', 'this is a test');
+        if(options.headers) {
+            makeRequestHeader(request, options.headers);
+        }
+
         request.send();
     });
 };
 
 export default {
-    get(url, params) {
-        return makeRequest(url, params, 'GET');
+    get(options) {
+        options.method = 'GET';
+        return makeRequest(options);
     }
 };
 
