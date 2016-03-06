@@ -11,7 +11,7 @@ let getErrorStack = (error) => {
     } else {
         console.error(error);
     }
-}
+};
 
 /**
  * used to identify the store methods
@@ -40,17 +40,32 @@ export default (options) => {
         /**
          * Calls the REST service url provided for now.
          * TODO: add other REST methods.
+         * TODO: test that data made it to server.
          */
-        return request.get(options).then((data) => {
-            dispatcher.handleViewAction({
-                actionType : id,
-                data       : JSON.parse(data)
+        if(options.httpMethod === 'POST') {
+            return request.post(options).then((data) => {
+                dispatcher.handleViewAction({
+                    actionType : id,
+                    data       : JSON.parse(data)
+                });
+                return Promise.resolve();
+            }).catch((errorData) => {
+                getErrorStack(errorData);
+                return Promise.reject(errorData);
             });
-            return Promise.resolve();
-        }).catch((errorData) => {
-            getErrorStack(errorData);
-            return Promise.reject(errorData);
-        });
+        } else {
+            return request.get(options).then((data) => {
+                dispatcher.handleViewAction({
+                    actionType : id,
+                    data       : JSON.parse(data)
+                });
+                return Promise.resolve();
+            }).catch((errorData) => {
+                getErrorStack(errorData);
+                return Promise.reject(errorData);
+            });
+        }
+
     } else {
 
         /**

@@ -12,12 +12,10 @@ let makeURL = (url, params) => {
     }
 };
 
-let makeRequestHeader = (request, headersArr) => {
-    return headersArr.map((header) => {
-        for(let key in header) {
-            return request.setRequestHeader(key, header[key]);
-        }
-    });
+let makeRequestHeader = (request, headers) => {
+    for(let key in headers) {
+        request.setRequestHeader(key, headers[key]);
+    }
 };
 
 let makeRequest = (options) => {
@@ -43,13 +41,18 @@ let makeRequest = (options) => {
             makeRequestHeader(request, options.headers);
         }
 
-        request.send();
+        request.send(options.postData);
     });
 };
 
 export default {
     get(options) {
         options.method = 'GET';
+        return makeRequest(options);
+    },
+
+    post(options) {
+        options.method = 'POST';
         return makeRequest(options);
     }
 };
