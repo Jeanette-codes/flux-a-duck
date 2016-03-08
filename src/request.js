@@ -18,12 +18,19 @@ let makeRequestHeader = (request, headers) => {
     }
 };
 
-let makeRequest = (options) => {
+let makePostData = (postData) => {
+    if(postData) {
+        return JSON.stringify(postData);
+    }
+};
+
+export default (options) => {
     return new Promise((resolve, reject) => {
         let request = new XMLHttpRequest();
+        let method = options.httpMethod ? options.httpMethod : 'GET';
 
         //synchronous request types are deprecated
-        request.open(options.method, makeURL(options.url, options.params), true);
+        request.open(method, makeURL(options.url, options.params), true);
 
         request.onload = () => {
             if (request.status >= 200 && request.status < 400) {
@@ -38,22 +45,19 @@ let makeRequest = (options) => {
         };
 
         if(options.headers) {
+
+            //default json headers
+            if(!('content-type') in options.headers) {
+                request.setRequestHeader('Content-Type', 'application/json');
+            }
+
+            if(!('Accept') in options.headers) {
+                request.setRequestHeader('Accept', 'application/json');
+            }
+
             makeRequestHeader(request, options.headers);
         }
 
-        request.send(options.postData);
+        request.send(makePostData(options.postData));
     });
 };
-
-export default {
-    get(options) {
-        options.method = 'GET';
-        return makeRequest(options);
-    },
-
-    post(options) {
-        options.method = 'POST';
-        return makeRequest(options);
-    }
-};
-

@@ -29,8 +29,6 @@ export default (options) => {
      * Creates a method in the store that is called in the store via
      * dispatcher call below.
      */
-
-    console.log('options: ', options);
     store.methods[id] = (data) => {
         options.storeMethod(data, store);
     };
@@ -39,32 +37,17 @@ export default (options) => {
 
         /**
          * Calls the REST service url provided for now.
-         * TODO: add other REST methods.
-         * TODO: test that data made it to server.
          */
-        if(options.httpMethod === 'POST') {
-            return request.post(options).then((data) => {
-                dispatcher.handleViewAction({
-                    actionType : id,
-                    data       : JSON.parse(data)
-                });
-                return Promise.resolve();
-            }).catch((errorData) => {
-                getErrorStack(errorData);
-                return Promise.reject(errorData);
+        return request(options).then((data) => {
+            dispatcher.handleViewAction({
+                actionType : id,
+                data       : JSON.parse(data)
             });
-        } else {
-            return request.get(options).then((data) => {
-                dispatcher.handleViewAction({
-                    actionType : id,
-                    data       : JSON.parse(data)
-                });
-                return Promise.resolve();
-            }).catch((errorData) => {
-                getErrorStack(errorData);
-                return Promise.reject(errorData);
-            });
-        }
+            return Promise.resolve();
+        }).catch((errorData) => {
+            getErrorStack(errorData);
+            return Promise.reject(errorData);
+        });
 
     } else {
 
