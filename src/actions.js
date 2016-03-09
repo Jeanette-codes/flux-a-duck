@@ -2,15 +2,11 @@ import dispatcher from './dispatcher.js';
 import request from './request.js';
 import store from './store.js';
 
-/**
- * So Errors aren't hidden by the dispatcher.
- */
-let getErrorStack = (error) => {
-    if (error && error.stack) {
-        console.error(error.stack);
-    } else {
-        console.error(error);
-    }
+let dispatch = (id, data) => {
+    dispatcher.handleViewAction({
+        actionType : id,
+        data       : data
+    });
 };
 
 /**
@@ -36,16 +32,12 @@ export default (options) => {
     if(options.url) {
 
         /**
-         * Calls the REST service url provided for now.
+         * Calls the REST service url provided.
          */
         return request(options).then((data) => {
-            dispatcher.handleViewAction({
-                actionType : id,
-                data       : JSON.parse(data)
-            });
+            dispatch(id, data);
             return Promise.resolve();
         }).catch((errorData) => {
-            getErrorStack(errorData);
             return Promise.reject(errorData);
         });
 
@@ -54,10 +46,7 @@ export default (options) => {
         /**
          * Bypasses any service calls and goes right to the dispatcher then store.
          */
-        dispatcher.handleViewAction({
-            actionType : id,
-            data       : {}
-        });
+        dispatch(id);
         return Promise.resolve();
     }
 };

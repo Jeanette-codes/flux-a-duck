@@ -20,7 +20,14 @@ let makeRequestHeader = (request, headers) => {
 
 let makePostData = (postData) => {
     if(postData) {
-        return JSON.stringify(postData);
+        switch(typeof postData) {
+            case 'string' :
+                return postData;
+                break;
+            case 'object' :
+                return JSON.stringify(postData);
+                break;
+        }
     }
 };
 

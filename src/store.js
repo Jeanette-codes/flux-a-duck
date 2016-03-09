@@ -51,8 +51,6 @@ _Store.dispatchToken = dispatcher.register((payload) => {
     }
 
     _Store.emitChange();
-
-    return true; // No errors.  Needed by promise in Dispatcher.
 });
 
 module.exports = _Store;
