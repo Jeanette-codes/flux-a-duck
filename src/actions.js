@@ -14,7 +14,7 @@ let dispatch = (id, data) => {
  */
 let methodCount = 0;
 
-export default (options) => {
+export default (options, callback) => {
 
     /**
      * caches the method count so the correct method is called later on.
@@ -26,10 +26,11 @@ export default (options) => {
      * dispatcher call below.
      */
     store.methods[id] = (data) => {
-        options.storeMethod(data, store);
+        console.log(typeof callback);
+        callback(data, store);
     };
 
-    if(options.url) {
+    if(options && options.url) {
 
         /**
          * Calls the REST service url provided.
