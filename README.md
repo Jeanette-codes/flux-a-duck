@@ -7,9 +7,52 @@
 Flux-A-Duck takes the [traditional flux protocol](https://facebook.github.io/flux/docs/overview.html), hides the complicated bits, and gives you only what you need in one convenient API wrapper. This way you can keep the methods used to access your data close to the Components that depend on it... Or you can put them on the moon. The point is that you can break your store functions and actions into bite sized components that go anywhere while retaining the single event loop style of Flux. 
 
 ---
-**installation**
+
+#installation
 
     npm install flux-a-duck 
+
+
+Assuming you're using React, this is how you would set up your basic controller-view:
+
+  
+
+    import React from 'react';
+    import FAD from 'flux-a-duck';
+    
+    class app extends React.Component {
+    
+        constructor(props){
+            super(props);
+        }
+    
+        _updateCallback() {
+            this.forceUpdate();
+        }
+    
+        componentDidMount() {
+            FAD.addChangeListener(this._onChange.bind(this));
+        }
+    
+        componentWillUnmount() {
+            FAD.removeChangeListener(this._onChange.bind(this));
+        }
+    
+        render() {
+            return (
+                <SomeKindOfReactComponent {...this.state}/>
+            );
+        }
+    
+        _onChange() {
+            this.setState(FAD.getAllJS());
+        }
+    }
+
+    app.displayName = 'App';
+    export default app;
+
+This passes all your store data into the props of your top level react components.
 
 ---
 #Basic Usage
