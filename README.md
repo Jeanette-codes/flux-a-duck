@@ -50,16 +50,16 @@ This passes all your store data into the props of your top level react component
 
 #Top Level Methods
 
-***FAD.addChangeListener(callback);***
+**FAD.addChangeListener(callback)**
 Register a callback to trigger when a store change event is emitted. Typically only used in your top most controller-view. 
 
-***FAD.removeChangeListener(callback);***
+**FAD.removeChangeListener(callback)**
 Removes callback from event listening. Typically used when react component is unmounted.
 
-***FAD.getAllJS();***
+**FAD.getAllJS()**
 Returns the entire data store in a plain js object. This is an alias for store.getAllJS() that is provided in the callback arguments.
 
-***FAD.action(callback, options)***
+**FAD.action(callback, options)**
 The heavy lifting is done in the FAD.action callback, it's what adds your data into the store. The options object is used for sending an AJAX call and if no call is required, the options object may be omitted.
 
 
@@ -82,19 +82,19 @@ This simplest use case of flux-a-duck. the code below puts a data object into th
 Argument methods provided in callback(store, data)
 ---------------------
 
-***store***
+**store**
 The store object and it's public methods which are as follows:
 
-***store.getAll();***
+**store.getAll()**
 Returns the entire data store in an immutable object.
 
-***store.getAllJS();***
+**store.getAllJS()**
 Returns the entire data store in a plain js object.
 
-***store.replace(newStore);***
+**store.replace(newStore)**
 Use this to replace your old store with a new mutated store.
 
-***data (optional)***
+**data (optional)**
 Typically a javascript object or string that is returned from an AJAX call. Normally you would parse this data in the callback and add it to the store. If no ajax call is required then data is not returned as an argument. 
 
 
@@ -118,16 +118,18 @@ Flux-a-duck provides an optional built-in AJAX service to easily make server cal
 		    store.replace(_store.setIn(['testData'], newData);
         });
 
+It can be added in front or behind the callback argument. Flux-A-Duck don't care; Flux-A-Duck abides.
+
 #AJAX options object API
 
-***url*** 
+**url**
 A string containing the URL to which the request is sent.
 
-***httpMethod*** 
+**httpMethod**
 Any valid [http method](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods) to use with your request. If this is not included it defaults to the GET method.
 
-***headers***
+**headers**
 An object of additional [header key/value pairs](https://en.wikipedia.org/wiki/List_of_HTTP_header_fields) to send along with requests.
 
-***postData***
+**postData**
 An object or a string to send to the server in a [POST request](https://en.wikipedia.org/wiki/POST_%28HTTP%29). The format will largely be dependent on what content-type you specify in the headers.
