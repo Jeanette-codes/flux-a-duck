@@ -60,13 +60,12 @@ Removes callback from event listening. Typically used when react component is un
 Returns the entire data store in a plain js object. This is an alias for store.getAllJS() that is provided in the callback arguments.
 
 ***FAD.action(callback, options)***
-The heavy lifting is done in the FAD.action callback, it's what adds your data into the store. The options object is used for the settings of your REST service and if no service is used, the options object maybe omitted.
+The heavy lifting is done in the FAD.action callback, it's what adds your data into the store. The options object is used for sending an AJAX call and if no call is required, the options object may be omitted.
 
 
----
-#Basic action method without REST service
+#Action method without AJAX call
 
-A simple example:
+This simplest use case of flux-a-duck. the code below puts a data object into the store.  
 
 	import FAD from 'flux-a-duck';
 	import Immutable from 'immutable';
@@ -90,14 +89,45 @@ The store object and it's public methods which are as follows:
 Returns the entire data store in an immutable object.
 
 ***store.getAllJS();***
-type: method
 Returns the entire data store in a plain js object.
 
 ***store.replace(newStore);***
-type: method
 Use this to replace your old store with a new mutated store.
 
 ***data (optional)***
-Typically a javascript object or string that is returned from a rest service. Normally you would parse this data in the callback and add it to the store. If no ajax or rest service is used then data is not returned as an argument. 
+Typically a javascript object or string that is returned from an AJAX call. Normally you would parse this data in the callback and add it to the store. If no ajax call is required then data is not returned as an argument. 
 
 
+#Action method with AJAX call
+
+Flux-a-duck provides an optional built-in AJAX service to easily make server calls and get the data directly into your action method. Create an AJAX call by adding the options object as an argument to the action method like so:
+
+    
+
+    FAD.action({
+		   url        : '/testGet',
+	       httpMethod : 'POST',
+	       postData   : 'some kind of post data',
+	       headers    : {
+	           'Accept'       : 'text/plain',
+	           'Content-Type' : 'text/plain'
+	       }
+	    }, (store, data) => {
+            let _store = store.getAll();
+            let newData = Immutable.fromJS(JSON.parse(data));
+		    store.replace(_store.setIn(['testData'], newData);
+        });
+
+#AJAX options object API
+
+***url*** 
+A string containing the URL to which the request is sent.
+
+***httpMethod*** 
+Any valid [http method](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods) to use with your request. If this is not included it defaults to the GET method.
+
+***headers***
+An object of additional [header key/value pairs](https://en.wikipedia.org/wiki/List_of_HTTP_header_fields) to send along with requests.
+
+***postData***
+An object or a string to send to the server in a [POST request](https://en.wikipedia.org/wiki/POST_%28HTTP%29). The format will largely be dependent on what content-type you specify in the headers.
