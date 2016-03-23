@@ -71,9 +71,9 @@ A simple example:
 	import FAD from 'flux-a-duck';
 	import Immutable from 'immutable';
     
-    FAD.action((store, data) => {
+    FAD.action((store) => {
         let _store = store.getAll();
-        let data = JSON.parse(data);
+        let data = { foo : 'bar' };
         _store = _store.setIn(['objectTest'], Immutable.fromJS(data));
         store.replace(_store);
     });
@@ -98,6 +98,6 @@ type: method
 Use this to replace your old store with a new mutated store.
 
 ***data (optional)***
-Typically a javascript object or string that is returned from a rest service. Normally you would parse this data in the callback and add it to the store. If no ajax or rest service is used then data is not used. 
+Typically a javascript object or string that is returned from a rest service. Normally you would parse this data in the callback and add it to the store. If no ajax or rest service is used then data is not returned as an argument. 
 
 
