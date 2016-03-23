@@ -2,18 +2,16 @@
 
 **Because your Actions file is enormous**
 
----
 
 Flux-A-Duck takes the [traditional flux protocol](https://facebook.github.io/flux/docs/overview.html), hides the complicated bits, and gives you only what you need in one convenient API wrapper. This way you can keep the methods used to access your data close to the Components that depend on it... Or you can put them on the moon. The point is that you can break your store functions and actions into bite sized components that go anywhere while retaining the single event loop style of Flux. 
 
----
 
 #installation
 
     npm install flux-a-duck 
 
 
-Assuming you're using React, this is how you would set up your basic controller-view:
+Assuming you're using React, this is how you would set up your basic [controller-view](https://facebook.github.io/flux/docs/overview.html#views-and-controller-views):
 
   
 
@@ -24,10 +22,6 @@ Assuming you're using React, this is how you would set up your basic controller-
     
         constructor(props){
             super(props);
-        }
-    
-        _updateCallback() {
-            this.forceUpdate();
         }
     
         componentDidMount() {
@@ -54,8 +48,23 @@ Assuming you're using React, this is how you would set up your basic controller-
 
 This passes all your store data into the props of your top level react components.
 
+#Top Level Methods
+
+***FAD.addChangeListener(callback);***
+Register a callback to trigger when a store change event is emitted. Typically only used in your top most controller-view. 
+
+***FAD.removeChangeListener(callback);***
+Removes callback from event listening. Typically used when react component is unmounted.
+
+***FAD.getAllJS();***
+Returns the entire data store in a plain js object. This is an alias for store.getAllJS() that is provided in the callback arguments.
+
+***FAD.action(callback, options)***
+The heavy lifting is done in the FAD.action callback, it's what adds your data into the store. The options object is used for the settings of your REST service and if no service is used, the options object maybe omitted.
+
+
 ---
-#Basic Usage
+#Basic action method without REST service
 
 A simple example:
 
@@ -69,23 +78,17 @@ A simple example:
     });
 
 
-**FAD.action(callback);**
 
-The callback is all you need to parse the data and add it to the store. It even provides two arguments to do so.
-
-callback(data, store)
+Argument methods provided in callback(store, data)
 ---------------------
 
-***data***
-type: object or string
-typically a js object that is returned from a rest service. Normally you would parse this data in the callback and add it to the store. 
+***data (optional)***
+Typically a javascript object or string that is returned from a rest service. Normally you would parse this data in the callback and add it to the store. If no ajax or rest service is used then data is not used. 
 
 ***store***
-type: object
 The store object and it's public methods which are as follows:
 
 ***store.getAll();***
-type: method
 Returns the entire data store in an immutable object.
 
 ***store.getAllJS();***
@@ -96,17 +99,3 @@ Returns the entire data store in a plain js object.
 type: method
 Use this to replace your old store with a new mutated store.
 
-
-#TODO: move this to the FAD setup in controller-view.
-
-***store.emitChange();***
-type: method
-Triggers a change event within your store. Typically only used in your top most controller-view.
-
-***store.addChangeListener(callback);***
-type: method
-Register a callback to trigger when a store change event is emitted. Typically only used in your top most controller-view. 
-
-***store.removeChangeListener(callback);***
-type: method
-Removes callback from event listening. Typically used when react component is unmounted.

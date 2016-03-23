@@ -26,8 +26,7 @@ export default (options, callback) => {
      * dispatcher call below.
      */
     store.methods[id] = (data) => {
-        console.log(typeof callback);
-        callback(data, store);
+        callback(store, data);
     };
 
     if(options && options.url) {
