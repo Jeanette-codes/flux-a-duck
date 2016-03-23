@@ -71,8 +71,9 @@ A simple example:
 	import FAD from 'flux-a-duck';
 	import Immutable from 'immutable';
     
-    FAD.action((data, store) => {
+    FAD.action((store, data) => {
         let _store = store.getAll();
+        let data = JSON.parse(data);
         _store = _store.setIn(['objectTest'], Immutable.fromJS(data));
         store.replace(_store);
     });
@@ -81,9 +82,6 @@ A simple example:
 
 Argument methods provided in callback(store, data)
 ---------------------
-
-***data (optional)***
-Typically a javascript object or string that is returned from a rest service. Normally you would parse this data in the callback and add it to the store. If no ajax or rest service is used then data is not used. 
 
 ***store***
 The store object and it's public methods which are as follows:
@@ -98,4 +96,8 @@ Returns the entire data store in a plain js object.
 ***store.replace(newStore);***
 type: method
 Use this to replace your old store with a new mutated store.
+
+***data (optional)***
+Typically a javascript object or string that is returned from a rest service. Normally you would parse this data in the callback and add it to the store. If no ajax or rest service is used then data is not used. 
+
 
