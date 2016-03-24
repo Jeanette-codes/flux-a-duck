@@ -1,6 +1,6 @@
 #Flux-A-Duck
 
-A simple wrapper for the flux pattern with an Immutable store and a sprinkle of AJAX.
+**A simple wrapper for the flux pattern with an Immutable store and a sprinkle of AJAX.**
 
 Flux-A-Duck takes the [traditional flux protocol](https://facebook.github.io/flux/docs/overview.html), hides the complicated bits, and gives you only what you need in one convenient API wrapper. This way you can keep the methods used to access your data close to the Components that depend on it... Or you can put them on the moon. The point is that you can break your store functions and actions into bite sized components that go anywhere while retaining the single event loop style of Flux. 
 
@@ -77,7 +77,7 @@ This simplest use case of flux-a-duck. the code below puts a data object into th
     });
 
 
-**A Quick word about Immutable**
+**A Quick word about Immutable: **
 The store in Flux-A-Duck is set up with [Immutable](https://facebook.github.io/immutable-js/) data collections, so the store argument comes with all the immutable methods for that data type attached. Any top level Immutabe methods (example: Immutable.fromJS()) require that you import Immutable. Using Immutable means you can only replace the store by using store.replace() as no direct mutation of the store is allowed. The duck has spoken.
 
 
