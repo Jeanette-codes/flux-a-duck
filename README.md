@@ -78,6 +78,9 @@ This simplest use case of flux-a-duck. the code below puts a data object into th
     });
 
 
+**A Quick word about Immutable**
+The store in Flux-A-Duck is set up with [Immutable](https://facebook.github.io/immutable-js/) data collections, so the store argument comes with all the immutable methods for that data type attached. Any top level Immutabe methods (example: Immutable.fromJS()) require that you import Immutable. Using Immutable means you can only replace the store by using store.replace() as no direct mutation of the store is allowed. The duck has spoken.
+
 
 Argument methods provided in callback(store, data)
 ---------------------
